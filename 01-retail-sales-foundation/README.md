@@ -1,6 +1,6 @@
 # Lab 1: Retail Sales Analytics Foundation
 
-> **Level:** Beginner · **Theme:** Core platform fundamentals · **Frontend:** Snowsight dashboard
+> **Level:** Beginner · **Theme:** Core platform fundamentals · **Frontend:** Streamlit in Snowflake dashboard deployed via `snow streamlit deploy`
 
 ## Scenario
 
@@ -62,12 +62,13 @@ By the end of this lab you will have:
 
 **Goal:** Get a working account and tooling.
 
-- Sign up for a Snowflake trial (Enterprise edition, on the cloud and region of your choice).
-- Install and configure the Snowflake CLI, and create a named connection.
-- Create a Git repo for this lab with `sql/`, `data/` and `docs/` folders.
+- [ ] Sign up for a Snowflake trial (Enterprise edition, on the cloud and region of your choice).
+- [ ] Install and configure the Snowflake CLI, and create a named connection.
+- [ ] Create a Git repo for this lab with `sql/`, `data/` and `docs/` folders.
 
 **Research:** Snowflake editions, account identifiers, Snowflake CLI connection config, key-pair authentication.
-**Done when:** `snow sql -q "SELECT CURRENT_ACCOUNT()"` works from your terminal.
+
+- [ ] **Done when:** `snow sql -q "SELECT CURRENT_ACCOUNT()"` works from your terminal.
 
 ---
 
@@ -75,12 +76,13 @@ By the end of this lab you will have:
 
 **Goal:** Be able to explain Snowflake's architecture before you build on it.
 
-- Read about the three layers: storage, compute and cloud services.
-- Learn what a micro-partition is and why Snowflake does not use indexes.
-- Learn the three caches and when each one is used.
+- [ ] Read about the three layers: storage, compute and cloud services.
+- [ ] Learn what a micro-partition is and why Snowflake does not use indexes.
+- [ ] Learn the three caches and when each one is used.
 
 **Research:** Snowflake key concepts and architecture, micro-partitions and data clustering, query caching.
-**Done when:** You can draw the architecture on a whiteboard and explain it in five minutes. Add your diagram to `docs/`.
+
+- [ ] **Done when:** You can draw the architecture on a whiteboard and explain it in five minutes. Add your diagram to `docs/`.
 
 ---
 
@@ -88,16 +90,17 @@ By the end of this lab you will have:
 
 **Goal:** Create realistic messy source files.
 
-- Generate synthetic data with Python (e.g. Faker) or derive it from the `SNOWFLAKE_SAMPLE_DATA` TPC-H tables:
+- [ ] Generate synthetic data with Python (e.g. Faker) or derive it from the `SNOWFLAKE_SAMPLE_DATA` TPC-H tables:
   - `sales_YYYYMMDD.csv`: daily transactions (several days' worth)
   - `customers.json`: nested customer records (addresses as arrays, preferences as objects)
   - `products.parquet`: the product catalogue
   - `stores.csv`: store reference data
-- **Deliberately add problems:** bad dates, missing values, duplicate rows and a malformed row or two.
-- Produce a second version of `customers.json` in which some customers have changed address. You'll need it for SCD2.
+- [ ] **Deliberately add problems:** bad dates, missing values, duplicate rows and a malformed row or two.
+- [ ] Produce a second version of `customers.json` in which some customers have changed address. You'll need it for SCD2.
 
 **Research:** Faker, pandas / pyarrow to write Parquet, TPC-H schema.
-**Done when:** You have at least 100k sales rows spread across multiple files, in all three formats.
+
+- [ ] **Done when:** You have at least 100k sales rows spread across multiple files, in all three formats.
 
 ---
 
@@ -105,12 +108,13 @@ By the end of this lab you will have:
 
 **Goal:** Lay out databases, schemas and warehouses with intent.
 
-- Create the `RAW`, `STAGING` and `ANALYTICS` databases (or schemas), and write down why you chose one approach over the other.
-- Create separate warehouses for loading, transformation and BI. Decide sizes and auto-suspend values, and document your reasoning.
-- Create a resource monitor with notify and suspend thresholds.
+- [ ] Create the `RAW`, `STAGING` and `ANALYTICS` databases (or schemas), and write down why you chose one approach over the other.
+- [ ] Create separate warehouses for loading, transformation and BI. Decide sizes and auto-suspend values, and document your reasoning.
+- [ ] Create a resource monitor with notify and suspend thresholds.
 
 **Research:** Warehouse sizes and credit consumption, auto-suspend best practices, resource monitors, transient vs permanent tables (and the effect on Fail-safe costs).
-**Done when:** `SHOW WAREHOUSES` shows three warehouses with auto-suspend configured, and a resource monitor is attached.
+
+- [ ] **Done when:** `SHOW WAREHOUSES` shows three warehouses with auto-suspend configured, and a resource monitor is attached.
 
 ---
 
@@ -118,13 +122,14 @@ By the end of this lab you will have:
 
 **Goal:** Implement least-privilege RBAC _before_ loading data.
 
-- Design roles: `LOADER` (writes to RAW), `TRANSFORMER` (reads RAW, writes STAGING and ANALYTICS), `ANALYST` (reads ANALYTICS only), and a `PLATFORM_ADMIN`.
-- Roll the custom roles up to `SYSADMIN` and understand why that matters.
-- Use future grants so new tables inherit permissions.
-- Create a test user for each role.
+- [ ] Design roles: `LOADER` (writes to RAW), `TRANSFORMER` (reads RAW, writes STAGING and ANALYTICS), `ANALYST` (reads ANALYTICS only), and a `PLATFORM_ADMIN`.
+- [ ] Roll the custom roles up to `SYSADMIN` and understand why that matters.
+- [ ] Use future grants so new tables inherit permissions.
+- [ ] Create a test user for each role.
 
 **Research:** Access control overview, system-defined roles, role hierarchy and inheritance, future grants, "access roles vs functional roles", why you shouldn't build with `ACCOUNTADMIN`.
-**Done when:** Logged in as `ANALYST`, you get a permission error querying RAW. Draw the hierarchy diagram into `docs/`.
+
+- [ ] **Done when:** Logged in as `ANALYST`, you get a permission error querying RAW. Draw the hierarchy diagram into `docs/`.
 
 ---
 
@@ -132,14 +137,15 @@ By the end of this lab you will have:
 
 **Goal:** Land the CSV files.
 
-- Create a named file format for the CSVs.
-- Create an internal stage and upload the files with `PUT` (via the CLI).
-- Use `COPY INTO` with `VALIDATION_MODE` first to see the errors, then load with an `ON_ERROR` strategy of your choice.
-- Query the load history to see which files loaded and which rows were rejected.
-- Re-run `COPY INTO` and observe what happens. Find out why the files aren't loaded twice.
+- [ ] Create a named file format for the CSVs.
+- [ ] Create an internal stage and upload the files with `PUT` (via the CLI).
+- [ ] Use `COPY INTO` with `VALIDATION_MODE` first to see the errors, then load with an `ON_ERROR` strategy of your choice.
+- [ ] Query the load history to see which files loaded and which rows were rejected.
+- [ ] Re-run `COPY INTO` and observe what happens. Find out why the files aren't loaded twice.
 
 **Research:** Stages (user, table, named), `PUT`, `COPY INTO <table>`, file formats, load metadata (64-day retention), `COPY_HISTORY`, `VALIDATE`.
-**Done when:** Raw sales are loaded, rejected rows are captured or explained, and re-runs are idempotent.
+
+- [ ] **Done when:** Raw sales are loaded, rejected rows are captured or explained, and re-runs are idempotent.
 
 ---
 
@@ -147,13 +153,14 @@ By the end of this lab you will have:
 
 **Goal:** Load directly from cloud storage, the way an enterprise would.
 
-- Upload the JSON and Parquet files to S3, Azure Blob or GCS.
-- Create a **storage integration** (not embedded credentials) and an external stage.
-- Use `INFER_SCHEMA` to generate the Parquet table definition, then load with `MATCH_BY_COLUMN_NAME`.
-- Load the JSON into a `VARIANT` column.
+- [ ] Upload the JSON and Parquet files to S3, Azure Blob or GCS.
+- [ ] Create a **storage integration** (not embedded credentials) and an external stage.
+- [ ] Use `INFER_SCHEMA` to generate the Parquet table definition, then load with `MATCH_BY_COLUMN_NAME`.
+- [ ] Load the JSON into a `VARIANT` column.
 
 **Research:** Storage integrations and the cloud IAM trust set-up, external stages, `INFER_SCHEMA`, `USING TEMPLATE`, why storage integrations beat access keys.
-**Done when:** Products and customers are in RAW, loaded via an integration with no secrets stored in SQL.
+
+- [ ] **Done when:** Products and customers are in RAW, loaded via an integration with no secrets stored in SQL.
 
 ---
 
@@ -161,13 +168,14 @@ By the end of this lab you will have:
 
 **Goal:** Turn nested JSON into relational tables.
 
-- Query the customer `VARIANT` with dot and bracket notation.
-- Use `LATERAL FLATTEN` to explode address arrays.
-- Cast values to proper types and build clean STAGING tables.
-- Clean the sales data: deduplicate, fix dates and handle nulls.
+- [ ] Query the customer `VARIANT` with dot and bracket notation.
+- [ ] Use `LATERAL FLATTEN` to explode address arrays.
+- [ ] Cast values to proper types and build clean STAGING tables.
+- [ ] Clean the sales data: deduplicate, fix dates and handle nulls.
 
 **Research:** Querying semi-structured data, `FLATTEN`, `TRY_CAST` / `TRY_TO_DATE`, `QUALIFY` with `ROW_NUMBER()` for deduplication.
-**Done when:** STAGING contains clean, typed and deduplicated tables with no `VARIANT` columns.
+
+- [ ] **Done when:** STAGING contains clean, typed and deduplicated tables with no `VARIANT` columns.
 
 ---
 
@@ -175,13 +183,14 @@ By the end of this lab you will have:
 
 **Goal:** Model the data for analytics.
 
-- Design the star schema on paper first: grain of the fact, dimensions, surrogate keys.
-- Build `DIM_DATE` by generating rows (no source file).
-- Build `DIM_PRODUCT`, `DIM_STORE` and `DIM_CUSTOMER`, then `FACT_SALES` with surrogate-key lookups.
-- Implement **SCD Type 2** on `DIM_CUSTOMER` using `MERGE` with your second customers file (effective dates and a current flag).
+- [ ] Design the star schema on paper first: grain of the fact, dimensions, surrogate keys.
+- [ ] Build `DIM_DATE` by generating rows (no source file).
+- [ ] Build `DIM_PRODUCT`, `DIM_STORE` and `DIM_CUSTOMER`, then `FACT_SALES` with surrogate-key lookups.
+- [ ] Implement **SCD Type 2** on `DIM_CUSTOMER` using `MERGE` with your second customers file (effective dates and a current flag).
 
 **Research:** Kimball dimensional modelling, fact grain, surrogate keys (sequences vs hashes), `GENERATOR` and `SEQ4()`, `MERGE`, SCD Types 1, 2 and 3.
-**Done when:** A customer who moved has two rows in `DIM_CUSTOMER`, and historic sales join to the _old_ address. Add an ERD to `docs/`.
+
+- [ ] **Done when:** A customer who moved has two rows in `DIM_CUSTOMER`, and historic sales join to the _old_ address. Add an ERD to `docs/`.
 
 ---
 
@@ -189,13 +198,14 @@ By the end of this lab you will have:
 
 **Goal:** Prove you can recover from mistakes and spin up environments for free.
 
-- Clone the `ANALYTICS` database to `ANALYTICS_DEV`. Check the storage used, then change some data in the clone.
-- "Accidentally" `DELETE` rows from `FACT_SALES`, then recover them with Time Travel (`AT` / `BEFORE` with a query ID).
-- `DROP` a table and `UNDROP` it.
-- Set different retention periods on different objects and explain the cost trade-off.
+- [ ] Clone the `ANALYTICS` database to `ANALYTICS_DEV`. Check the storage used, then change some data in the clone.
+- [ ] "Accidentally" `DELETE` rows from `FACT_SALES`, then recover them with Time Travel (`AT` / `BEFORE` with a query ID).
+- [ ] `DROP` a table and `UNDROP` it.
+- [ ] Set different retention periods on different objects and explain the cost trade-off.
 
 **Research:** Zero-copy cloning (what is and isn't cloned, including grants), Time Travel, `DATA_RETENTION_TIME_IN_DAYS`, Fail-safe, storage costs of clones over time.
-**Done when:** You have documented a delete-and-recover run and a clone that used near-zero additional storage at creation.
+
+- [ ] **Done when:** You have documented a delete-and-recover run and a clone that used near-zero additional storage at creation.
 
 ---
 
@@ -203,13 +213,14 @@ By the end of this lab you will have:
 
 **Goal:** Understand how Snowflake behaves under load and what it costs.
 
-- Run the same heavy analytical query on XS, S and M warehouses, and record runtime and credits.
-- Run it twice and observe the result cache. Disable the cache (`USE_CACHED_RESULT`) and compare.
-- Open the **Query Profile** and identify the most expensive operator and how much partition pruning happened.
-- Query `WAREHOUSE_METERING_HISTORY` and `QUERY_HISTORY` to build a cost table.
+- [ ] Run the same heavy analytical query on XS, S and M warehouses, and record runtime and credits.
+- [ ] Run it twice and observe the result cache. Disable the cache (`USE_CACHED_RESULT`) and compare.
+- [ ] Open the **Query Profile** and identify the most expensive operator and how much partition pruning happened.
+- [ ] Query `WAREHOUSE_METERING_HISTORY` and `QUERY_HISTORY` to build a cost table.
 
 **Research:** Query Profile, partition pruning, result caching, scaling up vs scaling out, `ACCOUNT_USAGE` vs `INFORMATION_SCHEMA` (and the latency difference).
-**Done when:** You have a chart of cost against runtime by warehouse size and can explain when to scale up.
+
+- [ ] **Done when:** You have a chart of cost against runtime by warehouse size and can explain when to scale up.
 
 ---
 
@@ -217,12 +228,13 @@ By the end of this lab you will have:
 
 **Goal:** Give the business something it can use.
 
-- As `ANALYST`, build Snowsight worksheets for total revenue, revenue by day, top 10 products, store league table and revenue by customer region.
-- Combine them into a Snowsight dashboard with filters (date range, store).
-- Optional: create reporting views in a dedicated schema so analysts never touch the base tables.
+- [ ] As `ANALYST`, build Snowsight worksheets for total revenue, revenue by day, top 10 products, store league table and revenue by customer region.
+- [ ] Combine them into a Snowsight dashboard with filters (date range, store).
+- [ ] Optional: create reporting views in a dedicated schema so analysts never touch the base tables.
 
 **Research:** Snowsight charts and dashboards, dashboard filters, secure vs standard views.
-**Done when:** A working dashboard runs on the BI warehouse under the `ANALYST` role. Add screenshots to `docs/`.
+
+- [ ] **Done when:** A working dashboard runs on the BI warehouse under the `ANALYST` role. Add screenshots to `docs/`.
 
 ---
 
@@ -230,12 +242,13 @@ By the end of this lab you will have:
 
 **Goal:** Make the lab reproducible.
 
-- Consolidate everything into ordered scripts (`sql/01_setup.sql` … `sql/99_teardown.sql`).
-- Run them end to end from the Snowflake CLI on a clean account.
-- Record the total credits the lab consumed.
+- [ ] Consolidate everything into ordered scripts (`sql/01_setup.sql` … `sql/99_teardown.sql`).
+- [ ] Run them end to end from the Snowflake CLI on a clean account.
+- [ ] Record the total credits the lab consumed.
 
 **Research:** Snowflake CLI `snow sql -f`, idempotent DDL (`CREATE OR REPLACE`, `IF NOT EXISTS`, `CREATE OR ALTER`).
-**Done when:** One command builds the whole lab, and one command removes it.
+
+- [ ] **Done when:** One command builds the whole lab, and one command removes it.
 
 ---
 
